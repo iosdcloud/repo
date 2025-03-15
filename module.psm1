@@ -32,9 +32,9 @@ function OSDCloudLogic {
     
     $Params = @{
         OSVersion = "Windows 11"
-        OSBuild = "22H2"
-        OSEdition = "Pro"
-        OSLanguage = "de-de"
+        OSBuild = "24H2"
+        OSEdition = "Enterprise"
+        OSLanguage = "en-ca"
         ZTI = $true
         Firmware = $true
     }
@@ -58,7 +58,6 @@ function OSDCloudLogic {
                             "Microsoft.MicrosoftOfficeHub",
                             "Microsoft.MicrosoftSolitaireCollection",
                             "Microsoft.MixedReality.Portal",
-                            "Microsoft.Office.OneNote",
                             "Microsoft.People",
                             "Microsoft.SkypeApp",
                             "Microsoft.Wallet",
@@ -106,7 +105,7 @@ function OSDCloudLogic {
                         "IsPresent":  true
                     },
         "GroupTag":  "$AssignedComputerName",
-        "AddToGroup": "GroupX",
+        "AddToGroup": "Autopilot Provision",
         "Hidden":  [
                         "AssignedComputerName",
                         "AssignedUser",
@@ -114,7 +113,6 @@ function OSDCloudLogic {
                         "Assign"
                     ],
         "PostAction":  "Quit",
-        "Run":  "NetworkingWireless",
         "Docs":  "https://google.com/",
         "Title":  "Manual Autopilot Register"
     }
@@ -133,13 +131,7 @@ PowerShell -NoL -Com Set-ExecutionPolicy RemoteSigned -Force
 Set Path = %PATH%;C:\Program Files\WindowsPowerShell\Scripts
 Start /Wait PowerShell -NoL -C Install-Module OSD -Force
 Start /Wait PowerShell -NoL -C Install-Module AutopilotOOBE -Force
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/AkosBakos/OSDCloud/main/Set-KeyboardLanguage.ps1
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/AkosBakos/OSDCloud/main/Install-EmbeddedProductKey.ps1
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://check-autopilotprereq.osdcloud.ch
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://start-autopilotoobe.osdcloud.ch
 Start /Wait PowerShell -NoL -C Start-OOBEDeploy
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://tpm.osdcloud.ch
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://cleanup.osdcloud.ch
 Start /Wait PowerShell -NoL -C Restart-Computer -Force
 '@
     $OOBE | Out-File -FilePath 'C:\Windows\System32\OOBE.cmd' -Encoding ascii -Force
